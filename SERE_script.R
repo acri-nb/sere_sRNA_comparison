@@ -1,6 +1,6 @@
 
 # SERE SCORE
-#The input is an output product of derfinder pipeline
+#The input is the output file from the derfinder pipeline
 
 # data cleaning, since we just need a count matrix
 obs.count <- read.table("Output_ceres.txt")
