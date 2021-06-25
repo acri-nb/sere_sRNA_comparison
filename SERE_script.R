@@ -29,7 +29,7 @@ sere.score <- function(obs.count, TH = 1) {
     expt.count[gene.idx, ] <- samp.count * row.count[gene.idx] / tot.count;
   }
   
-# sere score
+# computing the sere score
   disp.sum <- sum((obs.count - expt.count) ^ 2 / expt.count);
   sere <- sqrt(disp.sum / (num.genes * (num.samp - 1))); 
 }
