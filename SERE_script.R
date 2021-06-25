@@ -15,7 +15,7 @@ sere.score <- function(obs.count, TH = 1) {
   samp.count <- colSums(obs.count);
   row.count <- rowSums(obs.count);
   
-# filter those genes for which total reads for all samples > TH; where TH = 1
+# filter those genes for which total reads for all samples are > TH; where TH = 1
   idx <- which(row.count > 1);
   obs.count <- obs.count[idx, ];
   row.count <- row.count[idx];
