@@ -1,5 +1,7 @@
 
 #SERE SCORE
+
+#data cleaning
 obs.count <- read.table("Output_ceres.txt")
 obs.count$contig <- NULL
 obs.count$start <- NULL
