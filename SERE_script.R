@@ -1,7 +1,7 @@
 
-#SERE SCORE
+# SERE SCORE
 
-#data cleaning
+# data cleaning
 obs.count <- read.table("Output_ceres.txt")
 obs.count$contig <- NULL
 obs.count$start <- NULL
@@ -33,7 +33,7 @@ sere.score <- function(obs.count, TH = 1) {
   sere <- sqrt(disp.sum / (num.genes * (num.samp - 1))); 
 }
 
-#SERE DENODROGRAM 
+# SERE DENODROGRAM 
 sere.dendro <- function(obs.count, TH = 1) {
   # number of samples
   num.samp <- ncol(obs.count);
