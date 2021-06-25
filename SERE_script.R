@@ -60,13 +60,13 @@ sere.dendro <- function(obs.count, TH = 1) {
   return(clust);
 }
 
-#changing labels AFTER generating the dendrogram 
+# changing labels AFTER generating the dendrogram 
 install.packages('dendextend')
 library(dendextend)
 clust2 <- clust
 labels(clust2) <- c('S18_ISEQ_50ng_B2','S19_ISEQ_50ng_B2','S22_NS_50ng_B2','S23_NS_50ng_B2','S14_ISEQ_50ng_B2','S24_NS_50ng_B2','S25_NS_50ng_B2','S18_NS_50ng_B2','S21_NS_50ng_B2','S19_NS_50ng_B2','S20_NS_50ng_B2','S20_ISEQ_50ng_B2','S21_ISEQ_50ng_B2','S17_ISEQ_50ng_B2','S15_ISEQ_50ng_B2','S16_ISEQ_50ng_B2','S7_NS_10ng_B1','S8_NS_50ng_B1','S5_NS_10ng_B1','S6_NS_10ng_B1','S5_ISEQ_50ng_B1','S12_ISEQ_10ng_B2','S17_NS_10ng_B1','S13_ISEQ_10ng_B2','S2_ISEQ_10ng_B1','S9_NS_50ng_B1','S4_ISEQ_50ng_B1','S3_ISEQ_10ng_B1','S16_NS_10ng_B2','S1_ISEQ_10ng_B1')
 
-#comparing the two dendrograms 
-###par(mfrow = c(1,2)) [for small dendrograms]
+# comparing the two dendrograms 
+### par(mfrow = c(1,2)) [for small dendrograms]
 plot(clust, main = "Cluster Dendrogram (Original)")
 plot(clust2, main = "Cluster Dendrogram (Modified Labels)")
