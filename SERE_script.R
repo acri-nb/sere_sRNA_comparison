@@ -1,4 +1,4 @@
-#REFINED SERE SCORE
+#SERE SCORE
 obs.count <- read.table("Output_ceres.txt")
 obs.count$contig <- NULL
 obs.count$start <- NULL
@@ -12,21 +12,20 @@ sere.score <- function(obs.count, TH = 1) {
   samp.count <- colSums(obs.count);
   row.count <- rowSums(obs.count);
   
-  # filter those genes for which total reads for 
-  # all the samples > TH
+# filter those genes for which total reads for all samples > TH; where TH = 1
   idx <- which(row.count > 1);
   obs.count <- obs.count[idx, ];
   row.count <- row.count[idx];
   num.genes <- nrow(obs.count);
   
-  # expected counts
+# expected counts
   expt.count <- data.frame()
   expt.count <- matrix(NA, nrow = num.genes, ncol = num.samp);
   for(gene.idx in seq(num.genes)) {
     expt.count[gene.idx, ] <- samp.count * row.count[gene.idx] / tot.count;
   }
   
-  # sere score
+# sere score
   disp.sum <- sum((obs.count - expt.count) ^ 2 / expt.count);
   sere <- sqrt(disp.sum / (num.genes * (num.samp - 1))); 
 }
@@ -37,12 +36,12 @@ sere.dendro <- function(obs.count, TH = 1) {
   num.samp <- ncol(obs.count);
   col.names <- names(obs.count);
   
-  # distance matrix
+# distance matrix
   dist.mat <- matrix(NA, nrow = num.samp, ncol = num.samp);
   rownames(dist.mat) <- col.names;
   colnames(dist.mat) <- col.names;	
   
-  # fill the distance matrix
+# fill the distance matrix
   for(i in seq(num.samp)) {
     for(j in i : num.samp) {
       print(paste('Computing SERE score for : ', col.names[i], col.names[j]));
@@ -51,7 +50,7 @@ sere.dendro <- function(obs.count, TH = 1) {
     }
   }
   
-  # make the dendrogram
+# make the dendrogram
   clust <- hclust(as.dist(dist.mat), method = "complete");
   plot(clust);
   
