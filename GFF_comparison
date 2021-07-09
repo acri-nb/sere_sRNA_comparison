@@ -1,4 +1,4 @@
-# Identifying unique feature types/chromosomes between >= two GTF/GFF files
+# Identifying unique feature types/chromosomes between >= two GTF/GFF files in Linux
 
 # download gencode gff files from http://ftp.ebi.ac.uk/ into your working directory
 
