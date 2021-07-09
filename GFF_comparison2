@@ -1,0 +1,27 @@
+# Identifying unique chromosome entries between >= two GTF/GFF files
+
+# download gencode gff files from http://ftp.ebi.ac.uk/ into your working directory
+
+#inputs are the cleaned gff3 files from the GFF comparison of transcript IDs
+## determine the number of entries where the first column = "chr"
+awk '{print $1}' gencode.v38.2.gff3 | sort | uniq -c
+awk '{print $1}' gencode.v33.2.gff3 | sort | uniq -c
+
+# create a new file that contains the parsed lines in each gff3 file (i.e.: those that adhere to the previous condition (first column = "chr"))
+awk '{print $1}' gencode.v38.2.gff3 > gencode.v38.2.only_chr.gff3
+awk '{print $1}' gencode.v33.2.gff3 > gencode.v33.only_chr.gff3
+
+# generate a .txt file that includes every chromosome entry from each gff3 file
+cp gencode.v33.only_chr.gff3 > gencode.v33.only_chr.txt
+cp gencode.v38.only_chr.gff3 > gencode.v38.only_chr.txt
+
+# use comm linux utility tool to look for common and unique lines in the two gencode gff3 version files
+comm -12 <(sort gencode.v38.only_chr.txt) <(sort gencode.v33.only_chr.txt) > chr_common_in_gencodev33v38.txt
+comm -23 <(sort gencode.v38.only_chr.txt) <(sort gencode.v33.only_chr.txt) > chr_unique_in_gencodev38.txt
+comm -13 <(sort gencode.v38.only_chr.txt) <(sort gencode.v33.only_chr.txt) > chr_unique_in_gencodev33.txt
+
+# compare the number of unique chromosome entries between gff3 files 
+wc -l chr_unique_in_gencodev33.txt 
+wc -l chr_unique_in_gencodev38.txt 
+
+##use head, less, and tail to visualize unique chromosome types 
