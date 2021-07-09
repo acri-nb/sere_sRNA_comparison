@@ -1,4 +1,4 @@
-# Identifying unique transcript_IDs (feature type(s)) between two GTF/GFF files
+# Identifying unique feature types/chromosomes between >= two GTF/GFF files
 
 # download gencode gff files from http://ftp.ebi.ac.uk/ into your working directory
 
