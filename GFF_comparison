@@ -28,6 +28,10 @@ awk -F";" '$1=$1' OFS="\t" gencode.v38.2.only_transcripts.gff3 > gencode.v38.2.o
 awk '{print $12}' gencode.v33.only_transcript_IDscolumn.gff3 > gencode.v33.only_transcript_IDscolumn.txt
 awk '{print $12}' gencode.v38.2.only_transcript_IDscolumn.gff3 > gencode.v38.2.only_transcript_IDscolumn.txt
 
+#matching the output 
+
+awk '{print $12}' gencode.v38.2.only_transcript_IDscolumn.gff3 | tr -d/" | head
+
 # use comm linux utility tool to look for common and unique lines in the two gencode gff3 version files
 comm -12 <(sort gencode.v38.2.only_transcript_IDscolumn.txt) <(sort gencode.v33.only_transcript_IDscolumn.txt) > transcript_common_in_gencodev33v38.txt
 comm -23 <(sort gencode.v38.2.only_transcript_IDscolumn.txt) <(sort gencode.v33.only_transcript_IDscolumn.txt) > transcript_unique_in_gencodev38.txt
