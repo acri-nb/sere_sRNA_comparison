@@ -5,8 +5,8 @@
 # extract and copy file names
 gunzip gencode.v38.primary_assembly.annotation.gtf.gz
 gunzip gencodeV33_pluspirnadb1_7_6_plusmirbase21_tRNAscan_MINT_hg38_V2.gff3.gz
-cp gencode.v38.primary_assembly.annotation.gtf.gz gencode.v38.gff3
-cp gencodeV33_pluspirnadb1_7_6_plusmirbase21_tRNAscan_MINT_hg38_V2.gff3.gz gencode.v33.gff3
+cp gencode.v38.primary_assembly.annotation.gtf gencode.v38.gff3
+cp gencodeV33_pluspirnadb1_7_6_plusmirbase21_tRNAscan_MINT_hg38_V2.gff3 gencode.v33.gff3
 
 # remove lines starting with "##" in the gff3 files to only retain columns with chromosome entries
 grep -v "^#" gencode.v38.gff3 > gencode.v38.2.gff3
