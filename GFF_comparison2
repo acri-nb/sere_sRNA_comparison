@@ -2,7 +2,7 @@
 
 # download gencode gff files from http://ftp.ebi.ac.uk/ into your working directory
 
-#inputs are the cleaned gff3 files from the GFF comparison of transcript IDs
+#inputs are the copied and sorted gff3 files from the GFF comparison of transcript IDs (gencode.v33.2.gff3, gencode.v38.2.gff3)
 ## determine the number of entries where the first column = "chr"
 awk '{print $1}' gencode.v38.2.gff3 | sort | uniq -c
 awk '{print $1}' gencode.v33.2.gff3 | sort | uniq -c
