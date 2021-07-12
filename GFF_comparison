@@ -24,18 +24,18 @@ awk '{if ($3=="transcript") print $0}' gencode.v33.2.gff3 > gencode.v33.only_tra
 awk -F";" '$1=$1' OFS="\t" gencode.v33.only_transcripts.gff3 > gencode.v33.only_transcript_IDscolumn.gff3
 awk -F";" '$1=$1' OFS="\t" gencode.v38.2.only_transcripts.gff3 > gencode.v38.2.only_transcript_IDscolumn.gff3
 
-# generate txt file that has all "transcript_ID=ENST00..." printed in said gff3 file
-awk '{print $12}' gencode.v33.only_transcript_IDscolumn.gff3 > gencode.v33.only_transcript_IDscolumn.txt
-awk '{print $12}' gencode.v38.2.only_transcript_IDscolumn.gff3 > gencode.v38.2.only_transcript_IDscolumn.txt
+# visualize "ENST00..." in gff3 files
+awk '{print $12}' gencode.v33.only_transcript_IDscolumn.gff3 > gencode.v33.2.only_transcript_IDscolumn.gff3
+awk '{print $12}' gencode.v38.2.only_transcript_IDscolumn.gff3 > gencode.v38.3.only_transcript_IDscolumn.gff3
 
 #matching the output 
-
-awk '{print $12}' gencode.v38.2.only_transcript_IDscolumn.gff3 | tr -d/" | head
+cut -d'=' -f2- gencode.v33.2.only_transcript_IDscolumn.gff3 > gencode.v33.2.only_transcript_IDscolumn.txt
+awk 'BEGIN { FS=","; OFS="\t" } { gsub("\"", "") } { $1=$1 } 1' gencode.v38.3.only_transcript_IDscolumn.gff3 > gencode.v38.3.only_transcript_IDscolumn.txt
 
 # use comm linux utility tool to look for common and unique lines in the two gencode gff3 version files
-comm -12 <(sort gencode.v38.2.only_transcript_IDscolumn.txt) <(sort gencode.v33.only_transcript_IDscolumn.txt) > transcript_common_in_gencodev33v38.txt
-comm -23 <(sort gencode.v38.2.only_transcript_IDscolumn.txt) <(sort gencode.v33.only_transcript_IDscolumn.txt) > transcript_unique_in_gencodev38.txt
-comm -13 <(sort gencode.v38.2.only_transcript_IDscolumn.txt) <(sort gencode.v33.only_transcript_IDscolumn.txt) > transcript_unique_in_gencodev33.txt
+comm -12 <(sort gencode.v38.3.only_transcript_IDscolumn.txt) <(sort gencode.v33.2.only_transcript_IDscolumn.txt) > transcript_common_in_gencodev33v38.txt
+comm -23 <(sort gencode.v38.3.only_transcript_IDscolumn.txt) <(sort gencode.v33.2.only_transcript_IDscolumn.txt) > transcript_unique_in_gencodev38.txt
+comm -13 <(sort gencode.v38.3.only_transcript_IDscolumn.txt) <(sort gencode.v33.2.only_transcript_IDscolumn.txt) > transcript_unique_in_gencodev33.txt
 
 # use the previously generated files, containing transcript IDs, to look at the larger of the two gff3 files from step 4
 ## parse every entry of the larger file that matched the transcript IDs from the first file
