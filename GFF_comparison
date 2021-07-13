@@ -24,7 +24,7 @@ awk '{if ($3=="transcript") print $0}' gencode.v33.2.gff3 > gencode.v33.only_tra
 awk -F";" '$1=$1' OFS="\t" gencode.v33.only_transcripts.gff3 > gencode.v33.only_transcript_IDscolumn.gff3
 awk -F";" '$1=$1' OFS="\t" gencode.v38.2.only_transcripts.gff3 > gencode.v38.2.only_transcript_IDscolumn.gff3
 
-# visualize "ENST00..." in gff3 files
+# print only "ENST00..." in new gff3 files
 awk '{print $12}' gencode.v33.only_transcript_IDscolumn.gff3 > gencode.v33.2.only_transcript_IDscolumn.gff3
 awk '{print $12}' gencode.v38.2.only_transcript_IDscolumn.gff3 > gencode.v38.3.only_transcript_IDscolumn.gff3
 
