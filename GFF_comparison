@@ -8,39 +8,43 @@ gunzip gencodeV33_pluspirnadb1_7_6_plusmirbase21_tRNAscan_MINT_hg38_V2.gff3.gz
 cp gencode.v38.primary_assembly.annotation.gtf gencode.v38.gff3
 cp gencodeV33_pluspirnadb1_7_6_plusmirbase21_tRNAscan_MINT_hg38_V2.gff3 gencode.v33.gff3
 
+#removing HAVANA entries 
+grep -v havana gencode.v38.gff3 > gencode.v38.2.gff3
+grep -v havana gencode.v33.gff3 > gencode.v33.2.gff3
+
 # remove lines starting with "##" in the gff3 files to only retain columns with chromosome entries
-grep -v "^#" gencode.v38.gff3 > gencode.v38.2.gff3
-grep -v "^#" gencode.v33.gff3 > gencode.v33.2.gff3
+grep -v "^#" gencode.v38.2.gff3 > gencode.v38.3.gff3
+grep -v "^#" gencode.v33.2.gff3 > gencode.v33.3.gff3
 
 # determine the number of entries where the third column = "transcript"
-awk '{print $3}' gencode.v38.2.gff3 | sort | uniq -c
-awk '{print $3}' gencode.v33.2.gff3 | sort | uniq -c
+awk '{print $3}' gencode.v38.3.gff3 | sort | uniq -c
+awk '{print $3}' gencode.v33.3.gff3 | sort | uniq -c
 
 # create a new file that contains the parsed lines in each gff3 file which adhere to the previous condition (third column = "transcript")
-awk '{if ($3=="transcript") print $0}' gencode.v38.2.gff3 > gencode.v38.2.only_transcripts.gff3
-awk '{if ($3=="transcript") print $0}' gencode.v33.2.gff3 > gencode.v33.only_transcripts.gff3
+awk '{if ($3=="transcript") print $0}' gencode.v38.3.gff3 > gencode.v38.3.only_transcripts.gff3
+awk '{if ($3=="transcript") print $0}' gencode.v33.3.gff3 > gencode.v33.only_transcripts.gff3
 
 # split column 9 by \t(tab) field separator
 awk -F";" '$1=$1' OFS="\t" gencode.v33.only_transcripts.gff3 > gencode.v33.only_transcript_IDscolumn.gff3
-awk -F";" '$1=$1' OFS="\t" gencode.v38.2.only_transcripts.gff3 > gencode.v38.2.only_transcript_IDscolumn.gff3
+awk -F";" '$1=$1' OFS="\t" gencode.v38.3.only_transcripts.gff3 > gencode.v38.3.only_transcript_IDscolumn.gff3
 
 # print only "ENST00..." in new gff3 files
 awk '{print $12}' gencode.v33.only_transcript_IDscolumn.gff3 > gencode.v33.2.only_transcript_IDscolumn.gff3
-awk '{print $12}' gencode.v38.2.only_transcript_IDscolumn.gff3 > gencode.v38.3.only_transcript_IDscolumn.gff3
+awk '{print $12}' gencode.v38.3.only_transcript_IDscolumn.gff3 > gencode.v38.4.only_transcript_IDscolumn.gff3
 
 #matching the output 
 cut -d'=' -f2- gencode.v33.2.only_transcript_IDscolumn.gff3 > gencode.v33.2.only_transcript_IDscolumn.txt
-awk 'BEGIN { FS=","; OFS="\t" } { gsub("\"", "") } { $1=$1 } 1' gencode.v38.3.only_transcript_IDscolumn.gff3 > gencode.v38.3.only_transcript_IDscolumn.txt
+awk 'BEGIN { FS=","; OFS="\t" } { gsub("\"", "") } { $1=$1 } 1' gencode.v38.4.only_transcript_IDscolumn.gff3 > gencode.v38.4.only_transcript_IDscolumn.txt
 
 # use comm linux utility tool to look for common and unique lines in the two gencode gff3 version files
-comm -12 <(sort gencode.v38.3.only_transcript_IDscolumn.txt) <(sort gencode.v33.2.only_transcript_IDscolumn.txt) > transcript_common_in_gencodev33v38.txt
-comm -23 <(sort gencode.v38.3.only_transcript_IDscolumn.txt) <(sort gencode.v33.2.only_transcript_IDscolumn.txt) > transcript_unique_in_gencodev38.txt
-comm -13 <(sort gencode.v38.3.only_transcript_IDscolumn.txt) <(sort gencode.v33.2.only_transcript_IDscolumn.txt) > transcript_unique_in_gencodev33.txt
+comm -12 <(sort gencode.v38.4.only_transcript_IDscolumn.txt) <(sort gencode.v33.2.only_transcript_IDscolumn.txt) > transcript_common_in_gencodev33v38.txt
+comm -23 <(sort gencode.v38.4.only_transcript_IDscolumn.txt) <(sort gencode.v33.2.only_transcript_IDscolumn.txt) > transcript_unique_in_gencodev38.txt
+comm -13 <(sort gencode.v38.4.only_transcript_IDscolumn.txt) <(sort gencode.v33.2.only_transcript_IDscolumn.txt) > transcript_unique_in_gencodev33.txt
 
 # use the previously generated files, containing transcript IDs, to look at the larger of the two gff3 files from step 4
 ## parse every entry of the larger file that matched the transcript IDs from the first file
-awk -F'\t' 'NR==FNR{c[$1]++;next};c[$12]' transcript_unique_in_gencodev38.txt gencode.v38.2.only_transcript_IDscolumn.gff3 > transcript_unique_in_gencodev38.gff3
-awk -F'\t' 'NR==FNR{c[$1]++;next};c[$12]' transcript_unique_in_gencodev33.txt gencode.v33.only_transcript_IDscolumn.gff3 > transcript_unique_in_gencodev33.gff3
+awk -F'\t' 'NR==FNR{c[$1]++;next};c[$12]' transcript_unique_in_gencodev38.txt gencode.v38.4.only_transcript_IDscolumn.gff3 > transcript_unique_in_gencodev38.gff3
+awk -F'\t' 'NR==FNR{c[$1]++;next};c[$12]' transcript_unique_in_gencodev33.txt gencode.v33.2.only_transcript_IDscolumn.gff3 > transcript_unique_in_gencodev33.gff3
 
 # merge the split column (as seen in original gff3 files):
 awk '{print $1"\t"$2"\t"$3"\t"$4"\t"$5"\t"$6"\t"$7"\t"$8"\t"$9";"$10";"$11";"$12";"$13";"$14";"$15";"$16";"$17";"$18";"$19";"$20";"$21";"$22";"$23}' transcript_unique_in_gencodev38.gff3 > transcript_unique_in_gencodev38_actual.gff3
