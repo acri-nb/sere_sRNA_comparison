@@ -49,3 +49,18 @@ awk -F'\t' 'NR==FNR{c[$1]++;next};c[$12]' transcript_unique_in_gencodev33.txt ge
 # merge the split column (as seen in original gff3 files):
 awk '{print $1"\t"$2"\t"$3"\t"$4"\t"$5"\t"$6"\t"$7"\t"$8"\t"$9";"$10";"$11";"$12";"$13";"$14";"$15";"$16";"$17";"$18";"$19";"$20";"$21";"$22";"$23}' transcript_unique_in_gencodev38.gff3 > transcript_unique_in_gencodev38_actual.gff3
 awk '{print $1"\t"$2"\t"$3"\t"$4"\t"$5"\t"$6"\t"$7"\t"$8"\t"$9";"$10";"$11";"$12";"$13";"$14";"$15";"$16";"$17";"$18";"$19";"$20";"$21";"$22";"$23}' transcript_unique_in_gencodev33.gff3 > transcript_unique_in_gencodev33_actual.gff3
+__________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+# MERGING GFF FILES (HAVANA)
+
+# repeat steps up to and including grep -v "^#" for v33.gff3
+
+#download gencode.v38.primary_assembly.annotation.gff3.gz from http://ftp.ebi.ac.uk/ into your working directory
+gunzip gencode.v38.primary_assembly.annotation.gff3.gz
+cp gencode.v38.primary_assembly.annotation.gff3 gencode.v38.00.gff3 
+
+#print HAVANA from v38 and save as a new file
+grep havana gencode.v38.00.gff3 > gencode.v38.01.gff3 
+
+#concatenate 
+cat gencode.v38.00.gff3 gencode.v33.x.gff3 > consensus.gff3
+
