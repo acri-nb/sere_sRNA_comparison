@@ -9,8 +9,8 @@ cp gencode.v38.primary_assembly.annotation.gtf gencode.v38.gff3
 cp gencodeV33_pluspirnadb1_7_6_plusmirbase21_tRNAscan_MINT_hg38_V2.gff3 gencode.v33.gff3
 
 #removing HAVANA entries 
-grep -v havana gencode.v38.gff3 > gencode.v38.2.gff3
-grep -v havana gencode.v33.gff3 > gencode.v33.2.gff3
+grep -v HAVANA gencode.v38.gff3 > gencode.v38.2.gff3
+grep -v HAVANA gencode.v33.gff3 > gencode.v33.2.gff3
 
 # remove lines starting with "##" in the gff3 files to only retain columns with chromosome entries
 grep -v "^#" gencode.v38.2.gff3 > gencode.v38.3.gff3
