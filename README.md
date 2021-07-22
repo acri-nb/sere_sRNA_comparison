@@ -2,7 +2,7 @@
 
 **Description**
 
-Single-parameter quality control and sample comparison for RNA-seq (SERE) is a statistical tool used to quantify and visualize global differences between two or more sets of RNA-seq count data. Analysis of SERE scores and dendrograms help effectively determine the reliability of experimental replicates. 
+Simple Error Ratio Estimate (SERE) is a statistical tool used to quantify and visualize global differences between two or more sets of RNA-seq count data. Analysis of SERE scores and dendrograms help effectively determine the reliability of experimental replicates. 
 
 **Considerations**
 
